@@ -56,8 +56,9 @@ void authentication ()
 }
 	
 void login::register_user() {
+	system("COLOR F0");
     system("cls");
-    ifstream inFile("users2.txt",ios::app); // Open the file in input mode
+    ifstream inFile("AUTHENTICATION.dat",ios::app|ios::binary); // Open the file in input mode
 
     if (!inFile) {
         cout << "Error: Unable to open file!" << endl;
@@ -72,20 +73,21 @@ void login::register_user() {
     while (inFile >> test.name >> test.pass) { // Read existing usernames
         if (test.name == name) {
             cout << "\nUsername " << test.name << " already exists!" << endl;
-            Sleep(1000);
+            Sleep(100);
             cout << "Please choose a different username:" << endl;
             cin >> name;
             inFile.close(); // Close the file
-            inFile.open("users2.txt"); // Reopen the file for further checks
+            inFile.open("AUTHENTICATION.dat"); // Reopen the file for further checks
         }
     }
 
     inFile.close(); // Close the file
 
-    ofstream outFile("users2.txt", ios::app); // Open the file in append mode
+    ofstream outFile("AUTHENTICATION.dat", ios::app); // Open the file in append mode
 
     if (!outFile) {
         cout << "Error: Unable to open file!" << endl;
+        Sleep(2000);
         return;
     }
 
@@ -105,9 +107,8 @@ void login::register_user() {
     Sleep(2000);
     
 }
-
-
 void login::log_in(){
+	system("COLOR F0");
 	system("cls");
     cout<<"-------------------LOGIN--------------------";
     cout<<endl;
@@ -117,10 +118,11 @@ void login::log_in(){
     cout << "Enter password:" << endl;
     cin >> pass;
 
-    ifstream infile("users2.txt");
+    ifstream infile("AUTHENTICATION.dat");
 
     if (!infile) {
         cout << "Error: Unable to open file!" << endl;
+        Sleep(2000);
         return;
     }
 
@@ -155,11 +157,12 @@ void login::log_in(){
 
 
 void login::forget() {
+	system("COLOR F0");
 	system("cls");
     cout << "Enter user name:" << endl;
     cin >> name;
 
-    ifstream infile("users2.txt");
+    ifstream infile("AUTHENTICATION.dat");
 
     if (!infile) {
         cout << "Error: Unable to open file!" << endl;
@@ -174,7 +177,7 @@ void login::forget() {
         if (name == username) {
             found = true;
             cout << "\nYour password is: " << password << endl;
-            Sleep(3000);
+            Sleep(2000);
             break;
         }
     }
@@ -199,26 +202,26 @@ class product
  
 	void create_product()
 	{
-		cout<<endl<<"Please Enter The Product Number: ";
+		cout<<endl<<"\t\tPlease Enter The Product Number: ";
 		cin>>product_number;
-		cout<<endl<<"Please Enter The Name of The Product: ";
+		cout<<endl<<"\t\tPlease Enter The Name of The Product: ";
 		cin.ignore();
 		cin.getline(product_name ,50);
-		cout<<endl<<"Please Enter The Price of The Product: ";
+		cout<<endl<<"\t\tPlease Enter The Price of The Product: ";
 		cin>>product_price;
-		cout<<endl<<"Please Enter The Discount (%): ";
+		cout<<endl<<"\t\tPlease Enter The Discount (%): ";
 		cin>>product_discount;
-		cout<<endl<<"Please Enter The Quantity : ";
+		cout<<endl<<"\t\tPlease Enter The Quantity : ";
 		cin>>product_quantity;
 	}
 	
 	void show_product()
 	{
-		cout<<endl<<"Product #: "<<product_number;
-		cout<<endl<<"Product Name: "<<product_name;
-		cout<<endl<<"Product Price: "<<product_price;
-		cout<<endl<<"Discount : "<<product_discount;
-	    cout<<endl<<"Quantity : "<<product_quantity;
+		cout<<endl<<"\t\tProduct #: "<<product_number;
+		cout<<endl<<"\t\tProduct Name: "<<product_name;
+		cout<<endl<<"\t\tProduct Price: "<<product_price;
+		cout<<endl<<"\t\tDiscount : "<<product_discount;
+	    cout<<endl<<"\t\tQuantity : "<<product_quantity;
 	}
 	int getProduct_code()
 	{
@@ -241,14 +244,14 @@ class product
 		return product_discount;
 	}
 	void update_product() {
-        cout <<"Enter New Product Name: ";
+        cout << "\t\tEnter New Product Name: ";
         cin.ignore();
         cin.getline( product_name,50);
-        cout <<"Enter New Product Price: ";
+        cout << "\t\tEnter New Product Price: ";
         cin >> product_price;
-        cout <<"Enter New Discount (%): ";
+        cout << "\t\tEnter New Discount (%): ";
         cin >> product_discount;
-         cout <<"Enter Quantity: ";
+         cout << "\t\tEnter Quantity: ";
         cin >> product_quantity;
     }
 };
@@ -267,7 +270,7 @@ void inventory_add()
 		Sleep(2000);
 		return;
 	}
-	cout<<"------------------------ADD RECORDS---------------------------";
+	cout<<"\t\t-------------------ADD RECORDS--------------------";
 	cout<<endl;
 
 	product new_product;
@@ -287,7 +290,7 @@ void inventory_add()
 			{
 				already_exists = true;
 				cout << endl
-					 << "Product with this name or id already exists in the inventory.";
+					 << "\n\t\tProduct with this name or id already exists in the inventory.";
 					 
 				break;
 			}
@@ -299,10 +302,10 @@ void inventory_add()
 			file_write_obj.write((char *)&prod, sizeof(product)); // Write product to file
 			file_write_obj.close();
 			cout << endl
-				 << "The Product Has Been Successfully Created...";
+				 << "\t\tThe Product Has Been Successfully Created...";
 		}
 
-		cout << "\nDo you want to add more products? (y/n): ";
+		cout << "\n\t\tDo you want to add more products? (y/n): ";
 		char choice;
 		cin >> choice;
 		if (choice != 'y' && choice != 'Y')
@@ -318,14 +321,15 @@ void inventory_add()
 void display_product()
 {
 	system("cls");
-	cout<<endl<<"-------------------------------------------\n";
-	cout<<endl<<" INVENTORY RECORDS.";
-	cout<<endl<<"--------------------------------------------\n";
+	cout<<endl<<"\t\t-------------------------------------------\n";
+	cout<<endl<<"\t\t INVENTORY RECORDS.";
+	cout<<endl<<"\t\t--------------------------------------------\n";
 	file_obj.open("inventory.dat",ios::in);
 	if(!file_obj)
 	{
 		cout<<endl<<"File not found ";
-		exit(0);
+		Sleep(2000);
+		return;
 	}
 	while(file_obj.read((char*)&prod,sizeof(product)))
 	{
@@ -333,7 +337,7 @@ void display_product()
 		cout<<endl<<"\t\t--------------------------------------------\n"<<endl;
 
 	}
-	Sleep(3000);
+	Sleep(5000);
 	file_obj.close();
 } 
 void search_product()
@@ -348,17 +352,17 @@ void search_product()
 		Sleep(2000);
 		return;
 	}
-
-	cout<<"---------------------SEARCH RECORDS--------------------";
+		cout<<"\t\t------------------SEARCH RECORDS--------------------";
 	cout<<endl;
-	cout<<"Enter product code number ";
+	cout<<"\t\tEnter product code number ";
 	cin>>num;
 	while(file_obj.read((char*)&prod,sizeof(product)))
 	{
 		if(prod.getProduct_code()==num)
 		{
+			
 			system("cls");
-			cout<<"---------------------SEARCH RECORDS--------------------";
+			cout<<"\t\t------------------SEARCH RECORDS--------------------";
 			prod.show_product();
 			found=true;
 			Sleep(2000);
@@ -367,7 +371,7 @@ void search_product()
 	
 	file_obj.close();
 	if(found != true)
-	cout<<"\n\nNo record found";
+	cout<<"\n\n\t\tNo record found";
 	 	Sleep(2000);
 	getchar();
 }
@@ -377,15 +381,16 @@ void delete_product()
 	display_product();
 	int num;
 	system("cls");
-	cout<<"---------------------DELETE RECORDS------------------------";
+	cout<<"\t\t------------------DELETE RECORDS--------------------";
 	cout<<endl;
-	cout<<endl<<endl<<"Please Enter The product #: ";
+	cout<<endl<<endl<<"\t\tPlease Enter The product #: ";
 	cin>>num;
 	file_obj.open("inventory.dat",ios::in|ios::out);
 	if(!file_obj)
 	{
 		cout<<endl<<"File not found ";
-		exit(0);
+		Sleep(2000);
+		return;
 	}
 	fstream  file_obj2;
 	file_obj2.open("Temp.dat",ios::out);
@@ -406,7 +411,8 @@ void delete_product()
 	file_obj.close();
 	remove("inventory.dat");
 	rename("Temp.dat","inventory.dat");
-	cout<<endl<<endl<<"Record Deleted......";
+	cout<<endl<<endl<<"\t\tRecord Deleted......";
+		Sleep(2000);
 	getchar();
 	return;
 }
@@ -414,10 +420,10 @@ void delete_product()
 
 void modify_product(){
 	display_product();
-		cout<<"-----------------------MODIFY RECORDS--------------------";
+		cout<<"\t\t------------------MODIFY RECORDS--------------------";
 		cout<<endl;
 	int product_number;
-	cout<<"Enter Product Number to Modify:";
+	cout<<"\t\tEnter Product Number to Modify:";
 	cin>>product_number;
 	fstream file("inventory.dat",ios::in | ios::out);
 	
@@ -425,20 +431,21 @@ void modify_product(){
 	while(file.read((char*)&prod,sizeof(prod))){
 		if(prod.getProduct_code()==product_number){  
 			found=true;
-			cout<<"\nProduct Found. Please provide updated details:" << endl;
+			cout<<"\n\t\tProduct Found. Please provide updated details:" << endl;
 			 prod.update_product();
 			 file.seekp(file.tellg()-sizeof(prod));
             file.write((char*)&prod, sizeof(prod));
             file.close();
-            cout <<"\nProduct has been successfully updated." << endl;
-			 Sleep(1000);
+            cout << "\n\t\tProduct has been successfully updated." << endl;
+			Sleep(2000);
 			 break;
 		}
 		
 	}
 	 if (!found){
 	 
-        cout << "Product not found with the provided number." << endl;
+        cout << "\n\t\tProduct not found with the provided number." << endl;
+        	Sleep(2000);
                }
                getchar();
                
@@ -454,7 +461,7 @@ void modify_product(){
 		exit(0);
 	}
  
-	cout<<endl<<endl<<"------------Product MENU-------------\n\n";
+	cout<<endl<<endl<<"\t\tProduct MENU\n\n";
 	cout<<"------------------------------------------------------\n";
 	cout<<"P.NO.|\t\tNAME|\t\tPRICE|\n";
 	cout<<"-------------------------------------------------------\n";
@@ -463,7 +470,7 @@ void modify_product(){
 		cout<<prod.getProduct_code()<<"\t\t"<<prod.getName()<<"\t\t"<<prod.getPrice()<<endl;
 	}
 	file_obj.close();
-	Sleep(2000);
+	Sleep(3000);
 }
  
    
@@ -508,7 +515,7 @@ void add_to_cart() {
     } while (ch == 'y' || ch == 'Y');
     getchar();
     system("cls");
-   	cout<<"\n\n--------------------------BILL--------------------------------\n";
+   	cout<<"\n\n-----------------------------BILL-----------------------------------\n";
 	cout<<"\nPr No.|\tPr Name|\tQuantity |\tPrice |\tAmount |\tAmount after discount\n";
     for (int x = 0; x < i; x++) {
         file_obj.open("inventory.dat", ios::in);
@@ -522,7 +529,7 @@ void add_to_cart() {
             if (prod.getProduct_code() == order_arr[x]) {
                 amt = prod.getPrice() * quantity[x];
                 damt = amt - (amt * prod.getDiscount() / 100);
-                cout << "\n" << order_arr[x] << "\t\t" << prod.getName() << "\t\t" << quantity[x] << "\t\t" << prod.getPrice() << "\t\t" << amt << "\t\t" << damt;
+                cout << "\n" << order_arr[x]<<"\t"<< prod.getName()<<"\t\t"<< quantity[x] <<"\t\t"<<prod.getPrice() << "\t" << amt << "\t\t" << damt;
                 total += damt;
             }
             file_obj.read((char*)&prod, sizeof(product));
@@ -696,4 +703,6 @@ main_menu();
 	
 	return 0;
 }
+
+
 
